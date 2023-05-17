@@ -11,5 +11,5 @@ Projektissa käytetään Python-ohjelmointikieltä. Mahdollisia kieliä projekti
 Matemaattisten tieteiden kandiohjelma, opintosuunta tietojenkäsittelyteoria.
 
 Viitteet:
--Salmela, L., Laskennan mallit luentomateriaali syksy 2022.
--Sipser, M., Introduction to the Theory of Computation, Third Edition,
+- Salmela, L., Laskennan mallit luentomateriaali syksy 2022.
+- Sipser, M., Introduction to the Theory of Computation, Third Edition,
