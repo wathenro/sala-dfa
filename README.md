@@ -5,3 +5,5 @@ Ohjelma muuntaa säännöllisen lausee deterministiseksi automaatiksi ja tarkast
 [Määrittelydokumentti](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/maaritteludokumentti.md)
 
 [Viikkoraportti 1](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/viikkoraportti1.md)
+
+[Viikkoraportti 2](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/viikkoraportti2.md)
