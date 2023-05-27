@@ -57,15 +57,15 @@ class UI():
         
         """
         try:
-            saannollinen_lause=int(self.saannollinen_lause.get())
+            saannollinen_lause=self.saannollinen_lause.get()
         except:
             saannollinen_lause=""
 
         try:
-            merkkijono=int(merkkijono.get())
+            merkkijono=merkkijono.get()
         except:
             merkkijono=""
-        
+        print(saannollinen_lause)
         if testaa_saannollinen_lause(saannollinen_lause).on_validi and testaa_merkkijono(merkkijono).on_validi:
             NFA=tee_NFA(saannollinen_lause)
             DFA=tee_DFA(NFA)
@@ -73,7 +73,7 @@ class UI():
                 palaute="K"
             else:
                 palaute="e"
-        elif not testaa_saannollinen_lause(saannollinen_lause):
+        elif not testaa_saannollinen_lause(saannollinen_lause).on_validi:
             palaute="V"
         else:
             palaute="EVVK"
