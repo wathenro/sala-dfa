@@ -26,14 +26,14 @@ class UI():
         self.teksti_saannollinen_lause.place(x=10,y=20)
 
         self.saannollinen_lause=Entry(self.window)
-        self.saannollinen_lause.insert(0, "(a+b*)")
+        self.saannollinen_lause.insert(0, "abc|(asd)*c")
         self.saannollinen_lause.place(x=10,y=50)
        
         self.teksti_merkkijono=Label(self.window,text="Anna merkkijono")
         self.teksti_merkkijono.place(x=250,y=20)
 
         self.merkkijono=Entry(self.window)
-        self.merkkijono.insert(0, "aaaab")
+        self.merkkijono.insert(0, "abc")
         self.merkkijono.place(x=250,y=50)
 
         design_button=Button(self.window, text='Suorita', command=self.suorita, width=10)
@@ -68,6 +68,10 @@ class UI():
         print(saannollinen_lause)
         if testaa_saannollinen_lause(saannollinen_lause).on_validi and testaa_merkkijono(merkkijono).on_validi:
             NFA=tee_NFA(saannollinen_lause)
+            for tila in NFA.NFA:
+                print("Tilan nimi",tila.nimi)
+                for siirtyma in tila.siirtymat:
+                    print(siirtyma,tila.siirtymat[siirtyma].nimi)
             DFA=tee_DFA(NFA)
             if DFA.kuuluuko_kieleen(merkkijono):
                 palaute="K"
