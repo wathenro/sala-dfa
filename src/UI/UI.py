@@ -26,7 +26,7 @@ class UI():
         self.teksti_saannollinen_lause.place(x=10,y=20)
 
         self.saannollinen_lause=Entry(self.window)
-        self.saannollinen_lause.insert(0, "abc|(asd)*c")
+        self.saannollinen_lause.insert(0, "abc(asd)*c")
         self.saannollinen_lause.place(x=10,y=50)
        
         self.teksti_merkkijono=Label(self.window,text="Anna merkkijono")

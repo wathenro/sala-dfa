@@ -68,6 +68,7 @@ class tee_NFA():
             #print(saannollinen_lause[indeksi])
             #print(len(self.NFA))
 
+
             # Jos ollaan säännöllisen lauseen viimeisessä merkissä, viimeistellään NFA
             if indeksi==len(saannollinen_lause)-1:
                 edellinen_tila=nykyinen_tila
@@ -78,6 +79,9 @@ class tee_NFA():
                 self.NFA.append(nykyinen_tila)
                 print(indeksi,nykyinen_tila.siirtymat)
                 break
+
+            
+                
 
             # Käydään saannollinen lause läpi kirjain kirjaimelta
             if saannollinen_lause[indeksi] not in self.operaattorit:
@@ -132,12 +136,66 @@ class tee_NFA():
                         if lause_suluissa[-1]=="*":
                             edellinen_tila.siirtymat[saannollinen_lause[indeksi]]=nykyinen_tila #siirrytään merkillä
                             self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-2]) #ja läheteään sulkulause rekursioon
+                            nykyinen_tila.siirtymat["eps_t"]=edellinen_tila
                             self.NFA.append(nykyinen_tila)
-                            print(indeksi)
+                            #print(indeksi)
                             indeksi=indeksi+2+len(lause_suluissa) #ja hypätään indeksissä eteenpäin
                             
-                            print(indeksi)
+                            #print(indeksi)
                             #indeksi+=8
                             continue
+                if saannollinen_lause[indeksi+1]=="(":
+                    # Tehdään siirtymä merkille
+                    edellinen_tila=nykyinen_tila
+                    nykyinen_tila=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    edellinen_tila.siirtymat[saannollinen_lause[indeksi]]=nykyinen_tila
+                    self.NFA.append(nykyinen_tila)
+                    #Etsitään sulkulause
+                    lause_suluissa=self.etsi_sulkulause(saannollinen_lause[indeksi+1:]) 
+                    print(lause_suluissa)
+                    print(lause_suluissa[1:len(lause_suluissa)-2])
+                    edellinen_tila=nykyinen_tila
+                    nykyinen_tila=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    if lause_suluissa[-1]=="*":
+                        edellinen_tila.siirtymat["eps_e"]=nykyinen_tila #epsillon siirtymä jos 0 kpl
+                        nykyinen_tila.siirtymat["eps_t"]=edellinen_tila # epsillon siirtymä takaisin
+                        self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-2]) #ja läheteään sulkulause rekursioon
+                        self.NFA.append(nykyinen_tila)
+                        indeksi=indeksi+1+len(lause_suluissa) #ja hypätään indeksissä eteenpäin
+                    if lause_suluissa[-1]=="+":
+                        nykyinen_tila.siirtymat["eps_t"]=edellinen_tila #epsillon siirtymä eteenpäin
+                        self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-2]) #ja läheteään sulkulause rekursioon
+                        self.NFA.append(nykyinen_tila)
+                        indeksi=indeksi+1+len(lause_suluissa) #ja hypätään indeksissä eteenpäin
+            # Tämä on edellisen toisto ja järjetön, mutta näin säännöllien lause voi alkaa sulkumerkillä. Korjataan.
+            if saannollinen_lause[indeksi]=="(":
+                    #Etsitään sulkulause
+                    lause_suluissa=self.etsi_sulkulause(saannollinen_lause[indeksi:]) 
+                    edellinen_tila=nykyinen_tila
+                    nykyinen_tila=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    if lause_suluissa[-1]=="*":
+                        edellinen_tila.siirtymat["eps_e"]=nykyinen_tila #epsillon siirtymä jos 0 kpl
+                        nykyinen_tila.siirtymat["eps_t"]=edellinen_tila # epsillon siirtymä takaisin
+                        self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-2]) #ja läheteään sulkulause rekursioon
+                        self.NFA.append(nykyinen_tila)
+                        indeksi=indeksi+len(lause_suluissa) #ja hypätään indeksissä eteenpäin
+                        print(indeksi)
+                        if indeksi>=len(saannollinen_lause):
+                            nykyinen_tila.siirtymat["eps_e"]=lopputila
+                    if lause_suluissa[-1]=="+":
+                        nykyinen_tila.siirtymat["eps_t"]=edellinen_tila #epsillon siirtymä eteenpäin
+                        self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-2]) #ja läheteään sulkulause rekursioon
+                        self.NFA.append(nykyinen_tila)
+                        indeksi=indeksi+len(lause_suluissa) #ja hypätään indeksissä eteenpäin
+                        print(indeksi)
+                        if indeksi>=len(saannollinen_lause):
+                            nykyinen_tila.siirtymat["eps_e"]=lopputila
+
+
+
+
             if wanha==indeksi: indeksi+=1000000 #Varmistetaan ettei jäädä ikuiseen luuppiin, poistetaan valmiista
 
