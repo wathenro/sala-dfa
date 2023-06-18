@@ -11,3 +11,5 @@ Ohjelma muuntaa säännöllisen lausee deterministiseksi automaatiksi ja tarkast
 [Viikkoraportti 3](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/viikkoraportti3.md)
 
 [Viikkoraportti 4](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/viikkoraportti4.md)
+
+[Viikkoraportti 5](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/viikkoraportti5.md)
