@@ -5,7 +5,7 @@ class tila():
         Tila-objeksi jossa sanakirjana siirtymät tilasta ja muuttujana tilan nimi.
         """
         self.siirtymat={}
-        self.siirtymat["eps_e"]=[]
+        self.siirtymat["eps"]=[]
         self.nimi=nimi
 
 class tee_NFA():
@@ -55,7 +55,7 @@ class tee_NFA():
         edellinen_tila=alkutila
         nykyinen_tila=tila(self.nimi_indeksi)
         self.nimi_indeksi+=1
-        edellinen_tila.siirtymat["eps_e"].append(nykyinen_tila)
+        edellinen_tila.siirtymat["eps"].append(nykyinen_tila)
         self.NFA.append(nykyinen_tila)
 
         indeksi=0
@@ -64,12 +64,12 @@ class tee_NFA():
            
             # Tyhjä kieli
             if saannollinen_lause=="":
-                nykyinen_tila.siirtymat["eps_e"].append(lopputila)
+                nykyinen_tila.siirtymat["eps"].append(lopputila)
                 break
             #Säännöllinen lause läpikäyty, poistu
             if indeksi>=len(saannollinen_lause):
-                nykyinen_tila.siirtymat["eps_e"].append(lopputila)
-                 break
+                nykyinen_tila.siirtymat["eps"].append(lopputila)
+                break
             
             # Käydään saannollinen lause läpi kirjain kirjaimelta
             if saannollinen_lause[indeksi] not in self.operaattorit:
@@ -82,13 +82,13 @@ class tee_NFA():
                 continue
 
             if saannollinen_lause[indeksi]=="*": # *-operaattori
-                edellinen_tila.siirtymat["eps_e"].append(nykyinen_tila) #jos merkkeja 0
-                nykyinen_tila.siirtymat["eps_t"]=edellinen_tila #toistoa monta kertaa
+                edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #jos merkkeja 0
+                nykyinen_tila.siirtymat["eps"].append(edellinen_tila) #toistoa monta kertaa
                 indeksi+=1 #seuraavaan merkkiin
                 continue
 
             if saannollinen_lause[indeksi]=="+": # +-operaattori
-                nykyinen_tila.siirtymat["eps_t"]=edellinen_tila #toistoa monta kertaa
+                nykyinen_tila.siirtymat["eps"].append(edellinen_tila) #toistoa monta kertaa
                 indeksi+=1 #seuraavaan merkkiin
                 continue
 
@@ -107,7 +107,7 @@ class tee_NFA():
                 edellinen_tila=nykyinen_tila
                 nykyinen_tila=tila(self.nimi_indeksi)
                 self.nimi_indeksi+=1
-                edellinen_tila.siirtymat["eps_e"].append(nykyinen_tila) #siirrytään sulkulauseeseen, tarvitaan jotta *,+,| operaattorien toteutus toimii
+                edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #siirrytään sulkulauseeseen, tarvitaan jotta *,+,| operaattorien toteutus toimii
                 self.NFA.append(nykyinen_tila)
                 #Etsitään sulkulause
                 lause_suluissa=self.etsi_sulkulause(saannollinen_lause[indeksi:]) 

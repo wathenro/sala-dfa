@@ -26,7 +26,7 @@ class UI():
         self.teksti_saannollinen_lause.place(x=10,y=20)
 
         self.saannollinen_lause=Entry(self.window)
-        self.saannollinen_lause.insert(0, "(sdsffd)*")
+        self.saannollinen_lause.insert(0, "abc")
         self.saannollinen_lause.place(x=10,y=50)
        
         self.teksti_merkkijono=Label(self.window,text="Anna merkkijono")
@@ -71,12 +71,14 @@ class UI():
             for tila in NFA.NFA:
                 print("Tilan nimi",tila.nimi)
                 for siirtyma in tila.siirtymat:
-                    if siirtyma!="eps_e":
+                    if siirtyma!="eps":
                         print(siirtyma,tila.siirtymat[siirtyma].nimi)
                     else:
-                        for eps_e in tila.siirtymat[siirtyma]:
-                            print(siirtyma,eps_e.nimi)
-            DFA=tee_DFA(NFA)
+                        for eps in tila.siirtymat[siirtyma]:
+                            print(siirtyma,eps.nimi)
+            DFA=tee_DFA(NFA.NFA)
+            for tila in DFA.DFA:
+                print("Tila ", tila.nimi, "siirtymät ", tila.siirtymat)
             if DFA.kuuluuko_kieleen(merkkijono):
                 palaute="K"
             else:
