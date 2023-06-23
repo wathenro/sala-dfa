@@ -26,7 +26,7 @@ class UI():
         self.teksti_saannollinen_lause.place(x=10,y=20)
 
         self.saannollinen_lause=Entry(self.window)
-        self.saannollinen_lause.insert(0, "abc")
+        self.saannollinen_lause.insert(0, "ab*c")
         self.saannollinen_lause.place(x=10,y=50)
        
         self.teksti_merkkijono=Label(self.window,text="Anna merkkijono")
@@ -62,7 +62,7 @@ class UI():
             saannollinen_lause=""
 
         try:
-            merkkijono=merkkijono.get()
+            merkkijono=self.merkkijono.get()
         except:
             merkkijono=""
         print(saannollinen_lause)
@@ -78,7 +78,11 @@ class UI():
                             print(siirtyma,eps.nimi)
             DFA=tee_DFA(NFA.NFA)
             for tila in DFA.DFA:
-                print("Tila ", tila.nimi, "siirtymät ", tila.siirtymat)
+                print("Tilan nimi on ",tila.nimi," ja se on lopputila", tila.lopputila)
+                print(tila.siirtymat.keys())
+                for siirtymat in tila.siirtymat:
+                    print("Tilalla", tila.nimi," on siirtymä ",siirtymat," tilaan ",tila.siirtymat[siirtymat].nimi)
+            print("Lähetettävä merkkijono ", merkkijono)
             if DFA.kuuluuko_kieleen(merkkijono):
                 palaute="K"
             else:
