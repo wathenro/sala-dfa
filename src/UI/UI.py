@@ -26,14 +26,14 @@ class UI():
         self.teksti_saannollinen_lause.place(x=10,y=20)
 
         self.saannollinen_lause=Entry(self.window)
-        self.saannollinen_lause.insert(0, "ab*c")
+        self.saannollinen_lause.insert(0, "(ab)*")
         self.saannollinen_lause.place(x=10,y=50)
        
         self.teksti_merkkijono=Label(self.window,text="Anna merkkijono")
         self.teksti_merkkijono.place(x=250,y=20)
 
         self.merkkijono=Entry(self.window)
-        self.merkkijono.insert(0, "abc")
+        self.merkkijono.insert(0, "abab")
         self.merkkijono.place(x=250,y=50)
 
         design_button=Button(self.window, text='Suorita', command=self.suorita, width=10)
@@ -65,9 +65,10 @@ class UI():
             merkkijono=self.merkkijono.get()
         except:
             merkkijono=""
-        print(saannollinen_lause)
+
         if testaa_saannollinen_lause(saannollinen_lause).on_validi and testaa_merkkijono(merkkijono).on_validi:
             NFA=tee_NFA(saannollinen_lause)
+            """
             for tila in NFA.NFA:
                 print("Tilan nimi",tila.nimi)
                 for siirtyma in tila.siirtymat:
@@ -76,13 +77,17 @@ class UI():
                     else:
                         for eps in tila.siirtymat[siirtyma]:
                             print(siirtyma,eps.nimi)
+            """
+                        
             DFA=tee_DFA(NFA.NFA)
+            """
             for tila in DFA.DFA:
                 print("Tilan nimi on ",tila.nimi," ja se on lopputila", tila.lopputila)
                 print(tila.siirtymat.keys())
                 for siirtymat in tila.siirtymat:
                     print("Tilalla", tila.nimi," on siirtymä ",siirtymat," tilaan ",tila.siirtymat[siirtymat].nimi)
             print("Lähetettävä merkkijono ", merkkijono)
+            """
             if DFA.kuuluuko_kieleen(merkkijono):
                 palaute="K"
             else:
@@ -92,6 +97,6 @@ class UI():
         else:
             palaute="EVVK"
         
-        
+            
         self.palaute_laatikko.delete(0,40)
         self.palaute_laatikko.insert(0, palaute) 

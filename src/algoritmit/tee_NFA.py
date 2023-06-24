@@ -82,8 +82,12 @@ class tee_NFA():
                 continue
 
             if saannollinen_lause[indeksi]=="*": # *-operaattori
-                edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #jos merkkeja 0
+                # edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #jos merkkeja 0 (vanha tn väärä versio jossa vain tämä)
                 nykyinen_tila.siirtymat["eps"].append(edellinen_tila) #toistoa monta kertaa
+                nykyinen_tila=tila(self.nimi_indeksi) #korjattu
+                self.nimi_indeksi+=1
+                self.NFA.append(nykyinen_tila)
+                edellinen_tila.siirtymat["eps"].append(nykyinen_tila)
                 indeksi+=1 #seuraavaan merkkiin
                 continue
 
