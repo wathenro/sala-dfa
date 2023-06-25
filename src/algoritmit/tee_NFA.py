@@ -75,8 +75,11 @@ class tee_NFA():
             if saannollinen_lause[indeksi] not in self.operaattorit:
                 edellinen_tila=nykyinen_tila #jos on niin nykyisestä tulee edellinen tila
                 nykyinen_tila=tila(self.nimi_indeksi) #ja tehdään uusi tila
-                self.nimi_indeksi+=1                                      
-                edellinen_tila.siirtymat[saannollinen_lause[indeksi]]=nykyinen_tila #johon siirtymä edellisestä tilasta
+                self.nimi_indeksi+=1
+                if saannollinen_lause[indeksi]=="ε":
+                    edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #epsillon siirtymä
+                else:
+                    edellinen_tila.siirtymat[saannollinen_lause[indeksi]]=nykyinen_tila #siirtymä edellisestä tilasta merkillä
                 self.NFA.append(nykyinen_tila)
                 indeksi+=1 #seuraavaan merkkiin
                 continue
@@ -98,7 +101,10 @@ class tee_NFA():
 
             if saannollinen_lause[indeksi]=="|": # |-operaattori
                 if saannollinen_lause[indeksi+1]!="(": #jos toinen vaihtoehto ei ole sulkulause
-                    edellinen_tila.siirtymat[saannollinen_lause[indeksi+1]]=nykyinen_tila #oikastaan vähän ja tehdään siirtymää samasta tilasta
+                    if saannollinen_lause[indeksi+1]=="ε":
+                        edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #epsillon siirtymä
+                    else:
+                        edellinen_tila.siirtymat[saannollinen_lause[indeksi+1]]=nykyinen_tila #oikastaan vähän ja tehdään siirtymää samasta tilasta
                     indeksi+=2 #seuraavaan merkkiin
                     continue
                 else:

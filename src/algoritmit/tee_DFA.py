@@ -43,55 +43,56 @@ class tee_DFA():
 
             for siirtyma in siirtymat_tilasta:         # jokaista kirjainta kohden tehdään uusi tila paitsi jos osoittaa itseensä
                 tilat_joihin_siirrytty=[]      # kerätään muistiin kaikki tilat joihin siirtymä joko merkillä tai epsilonnilla jotta ei päädytä looppiin
-
+                uusi_tila=DFA_tila(self.nimi_indeksi)  #luodaan uusi tila
+                self.nimi_indeksi+=1                   # päivitetään nimi indeksiä
                 
                 
                 for NFA_tila in kasiteltava_DFA_tila.NFA_tilat:    # käydään läpi kaikki yhteen DFA-tilaan sisältyvät NFA-tilat
                     if siirtyma not in NFA_tila.siirtymat.keys():
                         continue
-                    if NFA_tila.siirtymat[siirtyma] in kasiteltava_DFA_tila.NFA_tilat: # tilalla siirtyma itseensä
-                        kasiteltava_DFA_tila.siirtymat[siirtyma]=kasiteltava_DFA_tila
+                    #if NFA_tila.siirtymat[siirtyma] in kasiteltava_DFA_tila.NFA_tilat: # tilalla siirtyma itseensä
+                    #    kasiteltava_DFA_tila.siirtymat[siirtyma]=kasiteltava_DFA_tila
                         #print("DFA tilalla siirtymä itseensä")
-                    else:
-                        uusi_tila=DFA_tila(self.nimi_indeksi)  #luodaan uusi tila
-                        self.nimi_indeksi+=1                   # päivitetään nimi indeksiä
-                        """
-                        Tämä koodi tässä johti silmukkaan koska tuli siirtymä joka johti tilaan joka oli jo olemassa. Tässä vielä jos tarvitsee palata
-                        #self.DFA.append(uusi_tila)             # lisätään tila DFAhan
-                        #DFA_jono.append(uusi_tila)
-                        #kasiteltava_DFA_tila.siirtymat[siirtyma]=uusi_tila
-                        #print("DFA Tilalla", kasiteltava_DFA_tila.nimi, " siirtymä DFA tilaan",kasiteltava_DFA_tila.siirtymat[siirtyma].nimi)
-                        """
-                        uusi_tila.NFA_tilat.append(NFA_tila.siirtymat[siirtyma]) #jos siirtymä sisältyy käsiteltävään NFA-tilaan lisätään se DFA-tilaan
-                        tilat_joihin_siirrytty.append(NFA_tila.siirtymat[siirtyma]) #ja tiloihin jotka käsitelty
-                        #print("Tilalla", uusi_tila.nimi, " koostumus ",uusi_tila.NFA_tilat)
-                    
-                        for NFA_tila in uusi_tila.NFA_tilat:    # seuraavaksi käydään läpi epsillon-siirtymät
-                            if len(NFA_tila.siirtymat["eps"])!=0:
-                                kasittelyjono=[]
-                                kasittelyjono.extend(NFA_tila.siirtymat["eps"])
-                                #print("Käsittelyjono nyt",kasittelyjono)
-                                while len(kasittelyjono)>0:
-                                    kasiteltava=kasittelyjono.pop(0)
-                                    #print("Käsitellään epsillon-siirtymää NFA-nodeen",kasiteltava.nimi)
-                            
+                    #else:
+                    #uusi_tila=DFA_tila(self.nimi_indeksi)  #luodaan uusi tila
+                    #self.nimi_indeksi+=1                   # päivitetään nimi indeksiä
+                    """
+                    Tämä koodi tässä johti silmukkaan koska tuli siirtymä joka johti tilaan joka oli jo olemassa. Tässä vielä jos tarvitsee palata
+                    #self.DFA.append(uusi_tila)             # lisätään tila DFAhan
+                    #DFA_jono.append(uusi_tila)
+                    #kasiteltava_DFA_tila.siirtymat[siirtyma]=uusi_tila
+                    #print("DFA Tilalla", kasiteltava_DFA_tila.nimi, " siirtymä DFA tilaan",kasiteltava_DFA_tila.siirtymat[siirtyma].nimi)
+                    """
+                    uusi_tila.NFA_tilat.append(NFA_tila.siirtymat[siirtyma]) #jos siirtymä sisältyy käsiteltävään NFA-tilaan lisätään se DFA-tilaan
+                    tilat_joihin_siirrytty.append(NFA_tila.siirtymat[siirtyma]) #ja tiloihin jotka käsitelty
+                    #print("Tilalla", uusi_tila.nimi, " koostumus ",uusi_tila.NFA_tilat)
+                
+                    for NFA_tila in uusi_tila.NFA_tilat:    # seuraavaksi käydään läpi epsillon-siirtymät
+                        if len(NFA_tila.siirtymat["eps"])!=0:
+                            kasittelyjono=[]
+                            kasittelyjono.extend(NFA_tila.siirtymat["eps"])
+                            #print("Käsittelyjono nyt",kasittelyjono)
+                            while len(kasittelyjono)>0:
+                                kasiteltava=kasittelyjono.pop(0)
+                                #print("Käsitellään epsillon-siirtymää NFA-nodeen",kasiteltava.nimi)
+                        
 
-                                    if kasiteltava not in tilat_joihin_siirrytty:
-                                        uusi_tila.NFA_tilat.append(kasiteltava) #lisätään se DFA-tilaan
-                                        tilat_joihin_siirrytty.append(kasiteltava) #ja tiloihin jotka käsitelty
-                                        kasittelyjono.extend(kasiteltava.siirtymat["eps"]) # ja otetaan mukaan eps-siirtymat tästä tilasta"""
-                        #Tarkistetaan kuuluuko saatu tila jo DFAhan. Jos kuuluu, siirtymä sinne, jos ei lisätään se sinne ja käsittelyjonoon.
-                        tila_jo_DFAssa=False
-                        for tila_DFAssa in self.DFA:
-                            if uusi_tila.NFA_tilat==tila_DFAssa.NFA_tilat:
-                                kasiteltava_DFA_tila.siirtymat[siirtyma]=tila_DFAssa
-                                tila_jo_DFAssa=True
-                                #print("Tila löytyi DFAsta")
-                                break
-                        if tila_jo_DFAssa==False:
-                            self.DFA.append(uusi_tila)             # lisätään tila DFAhan
-                            DFA_jono.append(uusi_tila)
-                            kasiteltava_DFA_tila.siirtymat[siirtyma]=uusi_tila
+                                if kasiteltava not in tilat_joihin_siirrytty:
+                                    uusi_tila.NFA_tilat.append(kasiteltava) #lisätään se DFA-tilaan
+                                    tilat_joihin_siirrytty.append(kasiteltava) #ja tiloihin jotka käsitelty
+                                    kasittelyjono.extend(kasiteltava.siirtymat["eps"]) # ja otetaan mukaan eps-siirtymat tästä tilasta"""
+                    #Tarkistetaan kuuluuko saatu tila jo DFAhan. Jos kuuluu, siirtymä sinne, jos ei lisätään se sinne ja käsittelyjonoon.
+                    tila_jo_DFAssa=False
+                    for tila_DFAssa in self.DFA:
+                        if uusi_tila.NFA_tilat==tila_DFAssa.NFA_tilat:
+                            kasiteltava_DFA_tila.siirtymat[siirtyma]=tila_DFAssa
+                            tila_jo_DFAssa=True
+                            #print("Tila löytyi DFAsta")
+                            break
+                    if tila_jo_DFAssa==False:
+                        self.DFA.append(uusi_tila)             # lisätään tila DFAhan
+                        DFA_jono.append(uusi_tila)
+                        kasiteltava_DFA_tila.siirtymat[siirtyma]=uusi_tila
                         """
                         Debuggausta varten
                         print("DFAn tilassa", uusi_tila.nimi," seuraavat NFAn tilat")
