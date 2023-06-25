@@ -2,6 +2,7 @@
 
 Ohjelma muuntaa säännöllisen lausee deterministiseksi automaatiksi ja tarkastaa kuuluuko annettu merkkijono kieleen.
 
+## Dokumentit
 [Määrittelydokumentti](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/maaritteludokumentti.md)
 
 [Toteutusdokumentti](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/toteutusdokumentti.md)
@@ -11,7 +12,7 @@ Ohjelma muuntaa säännöllisen lausee deterministiseksi automaatiksi ja tarkast
 [Käyttöohje](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/kayttoohje.md)
 
 
-Viikkoraportit
+## Viikkoraportit
 
 [Viikkoraportti 1](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/viikkoraportti1.md)
 
