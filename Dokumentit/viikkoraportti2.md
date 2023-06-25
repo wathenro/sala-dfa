@@ -1,4 +1,4 @@
-#Viikko 2
+# Viikko 2
 
 Tehtiin ohjelmalle käyttöliittymä joka tuntuu käytännölliseltä ja toimivalta. Tehtiin alustava rakenne missä järjestyksessä metodeja kutsutaan ja metodien rungot. Tehtiin metodi joka tarkastaa annetun säännöllisen lauseen 
 sääntöjen mukaisuuden, eli käytännössä että sulut ovat oikein. Se tarkastaa myös että kaikki merkit ovat tulostettavia, sama tarkastus tehdään toisella metodilla annetulle merkkijonolle. Alustettiin pytest ja tehtiin alustavat
