@@ -18,6 +18,8 @@ Kuvassa yllä käyttöliittymä joka on melko yksiselitteinen. Säännöllisess�
 - \+ yksi tai useampi
 - | tai
 
+ε-merkki tulkitaan tyhjänä merkkinä.
+
 Painamalla 'Suorita' ohjelma tarkastaa ensin annetun säännöllisen lauseen ja annetun merkkijonon oikeellisuuden, tekee sitten NFAn josta se tekee DFAn ja testaa DFAlla kuuluuko annettu merkkijono kieleen.
 Tulos raportoidaan joko
 
