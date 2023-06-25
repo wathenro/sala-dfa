@@ -1,4 +1,4 @@
-#Toteutusdokumentti sala-dfa
+# Toteutusdokumentti sala-dfa
 
 Säännöllisen lauseen muodostama kieli on tunnistettavissa (epä-)deterministisellä äärellisellä automaatilla.
 Ohjelman sala-dfa tarkoituksena on muuntaa annettu säännöllinen lause epädeterministiseksi äärelliseksi automaatiksi (non-deterministic finite automata, NFA),
@@ -20,17 +20,17 @@ NFAta lukien säännöllista lausetta vasemmalta oikealla. Sulkumerkin “(“ k
 lauseesta ensin metodiin etsi_sulkulause, joka etsii suluissa olevan lauseen, esimerkiksi syötteellä (asd*(sdds)*)*ads(sdfs)+ se palauttaa (asd*(sdds)*).
 Tämä saatu osio lähetetään rekursiivisesi metodiin muodostus_silmukka. Kun annettu säännöllinen lause on käyty läpi on NFA muodostunut luokan listaan NFA.
 Säännöllisestä lauseesta NFAksi muodostaminen osoittautui projektin ylivoimaisesti vaikeimmaksi osuudeksi, enimmäkseen älyn puutteen vuoksi.
-Kurssin Laskennan mallit luentomateriaali (2022) ja kurssin kirja [Sipser] (http://staff.ustc.edu.cn/~huangwc/book/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf)
+Kurssin Laskennan mallit luentomateriaali (2022) ja kurssin kirja [Sipser](http://staff.ustc.edu.cn/~huangwc/book/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf)
 eivät kumpikaan oikein tarjonneet valmista algoritmia joka olisi suoraan voitu kirjoittaa Pythonille. Periaate kyllä esitetään mutta kuten sanottu,
 äly ei riittänyt kirjoittamaan sitä algortmiksi. Lähdettiin kirjoittamaan algoritmia joka lukee säännöllistä lausetta merkki kerrallaan ja muodostaa NFAta matkan varrella.
 Tätä oli suuria vaikeuksia saada toimimaan. Nettiä selaamalla törmättiin Thompsonin konstruktioon ja tästä saadut ideat saivat projektin eteenpäin. Jos käännös säännöllisestä
 lauseesta NFAksi olisi toteutettu kokonaan Thompsonin konstruktiolla olisi koodaaminen pitänyt aloittaa täysin alusta, pienen pähkimisen jälkeen todettiin että tähän ei ryhdytä.
 Lopullinen algoritmi on siis omaa tuotantoa voimakkailla vaikutteilla. Varmasti joku on tehnyt vastaavan aiemminkin.
-[Thompsonin konstruktiolla] (https://en.wikipedia.org/wiki/Thompson%27s_construction) tehty NFA pystyy tunnistamaan merkkijonon lineaarisessa ajassa, uskoakseni sala-dfa pystyy
+[Thompsonin konstruktiolla](https://en.wikipedia.org/wiki/Thompson%27s_construction) tehty NFA pystyy tunnistamaan merkkijonon lineaarisessa ajassa, uskoakseni sala-dfa pystyy
 melko lailla samaan, koska mihinkään ei varsinaisesti haarauduta josta joutusi palaamaan takaisin.
 
 NFAn muunnos DFAksi tehdään Laskennan mallit luentomateriaalin ja Sipserin kirjan esittämän algortimin mukaan luokassa tee_DFA jonka konstruktorin syötteenä saatu NFA.
-Ymmärtääkseni tapa on melko lailla [tämä] (https://en.wikipedia.org/wiki/Powerset_construction) Luodaan alkutila metodilla tee_alkutila NFAn alkutilasta ja sen epsillon-siirtymistä
+Ymmärtääkseni tapa on melko lailla [tämä](https://en.wikipedia.org/wiki/Powerset_construction) Luodaan alkutila metodilla tee_alkutila NFAn alkutilasta ja sen epsillon-siirtymistä
 ja aloitetaan siitä tilasta luomaan DFAta metodilla muodosta_dfa. Tämä oli loppujen lopuksi kohtuullisen helppo totetuttaa ja lopulta toimiessaan paljasti monia bugeja
 tee_NFAn tuottamissa automaateissa. Aikavaatimus ei liene lineaarinen koska kun uusi DFA tila on luotu, on pakko käydä läpi jo muodostetut tilat.
 Jos tila on olemassa, luodaan siirtymä siihen eikä uutta tilaa lisätä DFAhan tai käsittelyjonoon. Jos näin ei tehtäisi päädyttäisiin mahdollisesti loputtomaan silmukkaan.
