@@ -30,7 +30,7 @@ Lopullinen algoritmi on siis omaa tuotantoa voimakkailla vaikutteilla. Varmasti 
 melko lailla samaan, koska mihinkään ei varsinaisesti haarauduta josta joutusi palaamaan takaisin.
 
 NFAn muunnos DFAksi tehdään Laskennan mallit luentomateriaalin ja Sipserin kirjan esittämän algortimin mukaan luokassa tee_DFA jonka konstruktorin syötteenä saatu NFA.
-Ymmärtääkseni tapa on melko lailla [tämä](https://en.wikipedia.org/wiki/Powerset_construction) Luodaan alkutila metodilla tee_alkutila NFAn alkutilasta ja sen epsillon-siirtymistä
+Ymmärtääkseni tapa on melko lailla [tämä](https://en.wikipedia.org/wiki/Powerset_construction). Luodaan alkutila metodilla tee_alkutila NFAn alkutilasta ja sen epsillon-siirtymistä
 ja aloitetaan siitä tilasta luomaan DFAta metodilla muodosta_dfa. Tämä oli loppujen lopuksi kohtuullisen helppo totetuttaa ja lopulta toimiessaan paljasti monia bugeja
 tee_NFAn tuottamissa automaateissa. Aikavaatimus ei liene lineaarinen koska kun uusi DFA tila on luotu, on pakko käydä läpi jo muodostetut tilat.
 Jos tila on olemassa, luodaan siirtymä siihen eikä uutta tilaa lisätä DFAhan tai käsittelyjonoon. Jos näin ei tehtäisi päädyttäisiin mahdollisesti loputtomaan silmukkaan.
