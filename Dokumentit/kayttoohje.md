@@ -10,7 +10,7 @@
 
 ## Käyttö
 
-![Kuva käyttöliittymästä](https://github.com/wathenro/sala-dfa/new/main/Dokumentit/kayttoliittyma.jpg)
+![Kuva käyttöliittymästä](https://github.com/wathenro/sala-dfa/blob/main/Dokumentit/kayttoliittyma.jpg)
 
 Kuvassa yllä käyttöliittymä joka on melko yksiselitteinen. Säännöllisessä lauseessa voit käyttää kaikkia tulostettavia merkkejä, sulkumerkkejä ( ja ), sekä operaattoreita *, + ja |.
 
