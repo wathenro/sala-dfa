@@ -68,7 +68,7 @@ class UI():
 
         if testaa_saannollinen_lause(saannollinen_lause).on_validi and testaa_merkkijono(merkkijono).on_validi:
             NFA=tee_NFA(saannollinen_lause)
-            """
+            
             for tila in NFA.NFA:
                 print("Tilan nimi",tila.nimi)
                 for siirtyma in tila.siirtymat:
@@ -77,7 +77,7 @@ class UI():
                     else:
                         for eps in tila.siirtymat[siirtyma]:
                             print(siirtyma,eps.nimi)
-            """
+            
                         
             DFA=tee_DFA(NFA.NFA)
             

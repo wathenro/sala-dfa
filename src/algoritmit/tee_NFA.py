@@ -52,79 +52,94 @@ class tee_NFA():
         Pääsilmukka NFAn muodostamiselle. Saa arvoina alkutila ja lopputilan ja muodostaa näiden välille
         NFAn. Suluissa olevia osia kutsutaan rekursiolla.
         """
-        edellinen_tila=alkutila
-        nykyinen_tila=tila(self.nimi_indeksi)
-        self.nimi_indeksi+=1
-        edellinen_tila.siirtymat["eps"].append(nykyinen_tila)
-        self.NFA.append(nykyinen_tila)
-
+        tila4=alkutila
         indeksi=0
+        edellinen=""
 
         while True:
            
             # Tyhjä kieli
             if saannollinen_lause=="":
-                nykyinen_tila.siirtymat["eps"].append(lopputila)
+                alkutila.siirtymat["eps"].append(lopputila)
                 break
+ 
             #Säännöllinen lause läpikäyty, poistu
             if indeksi>=len(saannollinen_lause):
-                nykyinen_tila.siirtymat["eps"].append(lopputila)
+                tila4.siirtymat["eps"].append(lopputila)
                 break
             
             # Käydään saannollinen lause läpi kirjain kirjaimelta
             if saannollinen_lause[indeksi] not in self.operaattorit:
-                edellinen_tila=nykyinen_tila #jos on niin nykyisestä tulee edellinen tila
-                nykyinen_tila=tila(self.nimi_indeksi) #ja tehdään uusi tila
-                self.nimi_indeksi+=1
+                if edellinen!="|":
+                    tila1=tila4
+                    tila2=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    tila1.siirtymat["eps"].append(tila2)
+                    self.NFA.append(tila2)
+
+                    tila3=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    self.NFA.append(tila3)
+
+                    tila4=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    self.NFA.append(tila4)
+                    tila3.siirtymat["eps"].append(tila4)
                 if saannollinen_lause[indeksi]=="ε":
-                    edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #epsillon siirtymä
+                    tila2.siirtymat["eps"].append(tila3)
                 else:
-                    edellinen_tila.siirtymat[saannollinen_lause[indeksi]]=nykyinen_tila #siirtymä edellisestä tilasta merkillä
-                self.NFA.append(nykyinen_tila)
-                indeksi+=1 #seuraavaan merkkiin
+                    tila2.siirtymat[saannollinen_lause[indeksi]]=tila3
+                edellinen=saannollinen_lause[indeksi]
+                indeksi+=1
+
                 continue
 
             if saannollinen_lause[indeksi]=="*": # *-operaattori
-                # edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #jos merkkeja 0 (vanha tn väärä versio jossa vain tämä)
-                nykyinen_tila.siirtymat["eps"].append(edellinen_tila) #toistoa monta kertaa
-                nykyinen_tila=tila(self.nimi_indeksi) #korjattu
-                self.nimi_indeksi+=1
-                self.NFA.append(nykyinen_tila)
-                edellinen_tila.siirtymat["eps"].append(nykyinen_tila)
+                tila3.siirtymat["eps"].append(tila2)
+                tila2.siirtymat["eps"].append(tila4)
+                edellinen=saannollinen_lause[indeksi]
                 indeksi+=1 #seuraavaan merkkiin
                 continue
 
             if saannollinen_lause[indeksi]=="+": # +-operaattori
-                nykyinen_tila.siirtymat["eps"].append(edellinen_tila) #toistoa monta kertaa
+                tila3.siirtymat["eps"].append(tila2)
+                edellinen=saannollinen_lause[indeksi]
                 indeksi+=1 #seuraavaan merkkiin
                 continue
 
             if saannollinen_lause[indeksi]=="|": # |-operaattori
-                if saannollinen_lause[indeksi+1]!="(": #jos toinen vaihtoehto ei ole sulkulause
-                    if saannollinen_lause[indeksi+1]=="ε":
-                        edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #epsillon siirtymä
-                    else:
-                        edellinen_tila.siirtymat[saannollinen_lause[indeksi+1]]=nykyinen_tila #oikastaan vähän ja tehdään siirtymää samasta tilasta
-                    indeksi+=2 #seuraavaan merkkiin
-                    continue
-                else:
-                    lause_suluissa=self.etsi_sulkulause(saannollinen_lause[indeksi+1:]) # jos toinen vaihtoehto on sulkulause
-                    self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-1]) #ja läheteään sulkulause rekursioon
-                    indeksi+=(1+len(lause_suluissa)) #seuraavaan merkkiin
-                    continue
+                tila2=tila(self.nimi_indeksi)
+                self.nimi_indeksi+=1
+                tila1.siirtymat["eps"].append(tila2)
+                self.NFA.append(tila2)
+
+                tila3=tila(self.nimi_indeksi)
+                self.nimi_indeksi+=1
+                self.NFA.append(tila3)
+                tila3.siirtymat["eps"].append(tila4)
+
+                edellinen=saannollinen_lause[indeksi]
+                indeksi+=1
+                continue
 
             if saannollinen_lause[indeksi]=="(": # sulkulause
-                edellinen_tila=nykyinen_tila
-                nykyinen_tila=tila(self.nimi_indeksi)
-                self.nimi_indeksi+=1
-                edellinen_tila.siirtymat["eps"].append(nykyinen_tila) #siirrytään sulkulauseeseen, tarvitaan jotta *,+,| operaattorien toteutus toimii
-                self.NFA.append(nykyinen_tila)
-                #Etsitään sulkulause
-                lause_suluissa=self.etsi_sulkulause(saannollinen_lause[indeksi:]) 
-                edellinen_tila=nykyinen_tila
-                nykyinen_tila=tila(self.nimi_indeksi) # nyt on tehty tilat joiden välillä sulkulauseen tilat tulevat
-                self.nimi_indeksi+=1
-                self.NFA.append(nykyinen_tila)
-                self.muodostus_silmukka(edellinen_tila,nykyinen_tila,lause_suluissa[1:len(lause_suluissa)-1])
-                indeksi+=(len(lause_suluissa)) #seuraavaan merkkiin
+                if edellinen!="|":
+                    tila1=tila4
+                    tila2=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    tila1.siirtymat["eps"].append(tila2)
+                    self.NFA.append(tila2)
+
+                    tila3=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    self.NFA.append(tila3)
+
+                    tila4=tila(self.nimi_indeksi)
+                    self.nimi_indeksi+=1
+                    self.NFA.append(tila4)
+                    tila3.siirtymat["eps"].append(tila4)
+                lause_suluissa=self.etsi_sulkulause(saannollinen_lause[indeksi:])
+                self.muodostus_silmukka(tila2,tila3,lause_suluissa[1:len(lause_suluissa)-1])
+                edellinen=saannollinen_lause[indeksi]
+                indeksi+=(len(lause_suluissa))
                 continue
