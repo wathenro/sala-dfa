@@ -13,12 +13,22 @@ Luokassa testaa_saannollinen lause testataan esimerkiksi, että kahta operaattor
 sillä on varauduttu lähinnä siihen että syötetyssä merkkijonossa voisi olla elementtejä jotka kaatavat tai sekoittavat ohjelman.
 
 Kun säännöllinen lause ja merkkijono on hyväksytty muodostetaan NFA luokassa tee_NFA syöttämällä säännöllinen lause sen konstruktoriin.
-Luodaan NFA:lle 2 tilaa, alkutila ja lopputila. NFA:n tilat ovat luokan tila-objekteja joilla on nimi ja sanakirja siirtymat jossa hakusanana
+Luodaan NFA:lle 2 tilaa, alkutila ja lopputila. NFA:n tilat ovat luokan "tila" objekteja joilla on nimi ja sanakirja "siirtymat" jossa hakusanana
 on merkki tai epsillon ja arvoina toinen tila-objekti. Epsillon-hakusanan kohdalla arvona on lista tiloista. Varsinainen muodostuva NFA on
 objektissa oleva lista NFA. Alkutila, lopputila ja säännöllinen lause syötetään luokan metodiin muodostus_silmukka. Tämä alkaa muodostamaan
-NFAta lukien säännöllista lausetta vasemmalta oikealla. Sulkumerkin “(“ kohdatessaan metodi lähettää vielä analysoimatta olevan osion säännöllisestä
+NFAta lukien säännöllista lausetta vasemmalta oikealla. 
+
+NFAn luonti perustuu koko ajan neljään peräkkäin olevaan tilaan, tila1, tila2, tila3 ja tila4. Näillä on aina epsillon-siirtymä tila1->tila2 ja tila3->tila4. Jos edellinen merkki
+EI ole ollut unioni | ja kohdataan joko merkki tai sulkulause, muuttuu edellinen tila4 tilaksi tila1. Sitten luodaan tila2,tila3,tila4 ja epsillon siirtymät tila1->tila2 ja tila3->tila4. Jos kohdataan merkki esimerkiksi "x", tulee tästä siirtymä "x" välille tila2->tila3. Jos kohdataan sulkulause, sulkumerkki “(“, metodi lähettää vielä analysoimatta olevan osion säännöllisestä
 lauseesta ensin metodiin etsi_sulkulause, joka etsii suluissa olevan lauseen, esimerkiksi syötteellä (asd*(sdds)*)*ads(sdfs)+ se palauttaa (asd*(sdds)*).
-Tämä saatu osio lähetetään rekursiivisesi metodiin muodostus_silmukka. Kun annettu säännöllinen lause on käyty läpi on NFA muodostunut luokan listaan NFA.
+Tämä saatu osio lähetetään rekursiivisesi metodiin muodostus_silmukka ja sille annetaan alkutilaksi tila2 ja lopputilaksi tila3 joiden väliin se muodostaa NFAn.
+
+Kohdatessa operaattorin + tehdään epsillon-siirtymä tila3->tila2 ja jos kohdataan * tehdään epsillon-siirtymät tila3->tila2, tila2->tila4.
+
+Kun kohdataan unioni, tehdään uudet tila2 ja tila3 ja siirtymät näihin uusiin tiloihin tila1->tila2 ja tila3->tila4. Kun seuraavaksi tulee väistämättä joko merkki tai sulkulause, siirtymä tehdään näiden uusien tilojen
+väliin jolloin syntyy kaksi (tai useampi) vaihtoehtoista polkua samalla lähtö- ja paluupisteellä.
+
+Kun annettu säännöllinen lause on käyty läpi on NFA muodostunut luokan listaan NFA. 
 Säännöllisestä lauseesta NFAksi muodostaminen osoittautui projektin ylivoimaisesti vaikeimmaksi osuudeksi, enimmäkseen älyn puutteen vuoksi.
 Kurssin Laskennan mallit luentomateriaali (2022) ja kurssin kirja [Sipser](http://staff.ustc.edu.cn/~huangwc/book/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf)
 eivät kumpikaan oikein tarjonneet valmista algoritmia joka olisi suoraan voitu kirjoittaa Pythonille. Periaate kyllä esitetään mutta kuten sanottu,
