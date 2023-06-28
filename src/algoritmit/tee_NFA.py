@@ -50,7 +50,9 @@ class tee_NFA():
         """Ei palauta arvoa
         
         Pääsilmukka NFAn muodostamiselle. Saa arvoina alkutila ja lopputilan ja muodostaa näiden välille
-        NFAn. Suluissa olevia osia kutsutaan rekursiolla.
+        NFAn. Suluissa olevia osia kutsutaan rekursiolla. NFA rakentuu neljän tilan tila1,tila2,tila3,tila4
+        moduuleista joissa tilojen tila1->tila2 ja tila3->tila4 on aina epsillon-siirtymä ja tilojen tila2->tila3
+        välissä kirjain-siirtymä, sulkulauseen muodostama NFA tai epsillon-siirtymä.
         """
         tila4=alkutila
         indeksi=0

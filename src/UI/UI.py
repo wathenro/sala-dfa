@@ -15,7 +15,7 @@ class UI():
     def __init__(self,window):
         """UI constructor
     
-        Args:
+        Attribuutit:
             window: tkinter main window
         """
         self.window=window
@@ -37,7 +37,6 @@ class UI():
         self.merkkijono.place(x=250,y=50)
 
         design_button=Button(self.window, text='Suorita', command=self.suorita, width=10)
-        """"design_button.config(bg="BLUE")"""
         design_button.place(x=10,y=90)
 
 
@@ -68,7 +67,7 @@ class UI():
 
         if testaa_saannollinen_lause(saannollinen_lause).on_validi and testaa_merkkijono(merkkijono).on_validi:
             NFA=tee_NFA(saannollinen_lause)
-            
+            """
             for tila in NFA.NFA:
                 print("Tilan nimi",tila.nimi)
                 for siirtyma in tila.siirtymat:
@@ -77,7 +76,7 @@ class UI():
                     else:
                         for eps in tila.siirtymat[siirtyma]:
                             print(siirtyma,eps.nimi)
-            
+            """
                         
             DFA=tee_DFA(NFA.NFA)
             

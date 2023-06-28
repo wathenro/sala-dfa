@@ -11,12 +11,7 @@ class tee_DFA():
         self.DFA=[]                           # DFA, lista tiloista
         self.nimi_indeksi=1                   # nimi ideksi DFAn tiloille
         alkutila=self.tee_alkutila(self.NFA)  # muodostetaan alkutila
-        #print("DFAn Alkuitilassa seuraavat NFAn tilat")
-        #for tilat in alkutila.NFA_tilat:
-        #    print(tilat.nimi)
         self.muodosta_dfa(alkutila)           # muodostetaan DFA  
-
-
         
     def muodosta_dfa(self,alkutila):
         """Ei palauta arvoa
@@ -50,19 +45,6 @@ class tee_DFA():
                 for NFA_tila in kasiteltava_DFA_tila.NFA_tilat:    # käydään läpi kaikki yhteen DFA-tilaan sisältyvät NFA-tilat
                     if siirtyma not in NFA_tila.siirtymat.keys():
                         continue
-                    #if NFA_tila.siirtymat[siirtyma] in kasiteltava_DFA_tila.NFA_tilat: # tilalla siirtyma itseensä
-                    #    kasiteltava_DFA_tila.siirtymat[siirtyma]=kasiteltava_DFA_tila
-                        #print("DFA tilalla siirtymä itseensä")
-                    #else:
-                    #uusi_tila=DFA_tila(self.nimi_indeksi)  #luodaan uusi tila
-                    #self.nimi_indeksi+=1                   # päivitetään nimi indeksiä
-                    """
-                    Tämä koodi tässä johti silmukkaan koska tuli siirtymä joka johti tilaan joka oli jo olemassa. Tässä vielä jos tarvitsee palata
-                    #self.DFA.append(uusi_tila)             # lisätään tila DFAhan
-                    #DFA_jono.append(uusi_tila)
-                    #kasiteltava_DFA_tila.siirtymat[siirtyma]=uusi_tila
-                    #print("DFA Tilalla", kasiteltava_DFA_tila.nimi, " siirtymä DFA tilaan",kasiteltava_DFA_tila.siirtymat[siirtyma].nimi)
-                    """
                     uusi_tila.NFA_tilat.append(NFA_tila.siirtymat[siirtyma]) #jos siirtymä sisältyy käsiteltävään NFA-tilaan lisätään se DFA-tilaan
                     tilat_joihin_siirrytty.append(NFA_tila.siirtymat[siirtyma]) #ja tiloihin jotka käsitelty
                     #print("Tilalla", uusi_tila.nimi, " koostumus ",uusi_tila.NFA_tilat)
@@ -75,7 +57,7 @@ class tee_DFA():
                             while len(kasittelyjono)>0:
                                 kasiteltava=kasittelyjono.pop(0)
                                 #print("Käsitellään epsillon-siirtymää NFA-nodeen",kasiteltava.nimi)
-                        
+        
 
                                 if kasiteltava not in tilat_joihin_siirrytty:
                                     uusi_tila.NFA_tilat.append(kasiteltava) #lisätään se DFA-tilaan
@@ -93,22 +75,14 @@ class tee_DFA():
                         self.DFA.append(uusi_tila)             # lisätään tila DFAhan
                         DFA_jono.append(uusi_tila)
                         kasiteltava_DFA_tila.siirtymat[siirtyma]=uusi_tila
-                        """
-                        Debuggausta varten
-                        print("DFAn tilassa", uusi_tila.nimi," seuraavat NFAn tilat")
-                        for tilat in uusi_tila.NFA_tilat:
-                            print(tilat.nimi)
-                        """
-
-
 
                         
         for tila in self.DFA:               #Merkitään lopputilat. Jos DFAssa oleva NFA tila sisältää lopputilan L, on sekin lopputila (=hyväksyvä tila)
             for NFA_tila in tila.NFA_tilat:
                 if NFA_tila.nimi=="L":
                     tila.lopputila=True
-                    #print("Löytyi lopputila joka on tila ", tila.nimi)
                     break
+                
 
     def tee_alkutila(self,NFA):
         """DFA_tila
