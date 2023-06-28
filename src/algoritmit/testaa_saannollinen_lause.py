@@ -40,7 +40,7 @@ class testaa_saannollinen_lause():
              muuten_oikein=False
         
         # Tarkistetaan muut väärät yhdistelmät
-        vaaria=["(|","|),()"]
+        vaaria=["(|","|)","()"]
         for vaara in vaaria:
              if vaara in saannollinen_lause:
                   muuten_oikein=False

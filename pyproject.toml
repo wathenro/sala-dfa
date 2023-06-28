@@ -7,6 +7,7 @@ authors = ["wathero <rolf.wathen@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 pytest = "^7.3.1"
+coverage = "^7.2.7"
 
 [tool.poetry.dev-dependencies]
 

@@ -7,6 +7,17 @@ optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 
 [[package]]
+name = "coverage"
+version = "7.2.7"
+description = "Code coverage measurement for Python"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+toml = ["tomli"]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.1"
 description = "Backport of PEP 654 (exception groups)"
@@ -75,10 +86,11 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "8532bfbc82f3b198d1c36cd8e45df2b4a7961e465d93bca844c6e327cf79e312"
+content-hash = "16a2ac55020d08a2409317469af2d2caa689e167873ed351ce17e8192d7620cb"
 
 [metadata.files]
 colorama = []
+coverage = []
 exceptiongroup = []
 iniconfig = []
 packaging = []

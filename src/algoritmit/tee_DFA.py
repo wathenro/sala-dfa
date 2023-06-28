@@ -140,6 +140,9 @@ class tee_DFA():
         """
         merkkijono=list(merkkijono)
         nykyinen_tila=self.DFA[0]
+        if nykyinen_tila.lopputila==True and len(merkkijono)==0:
+            return True
+
         while len(merkkijono)>0:
             siirtyma=merkkijono.pop(0)
             if siirtyma not in nykyinen_tila.siirtymat.keys():
